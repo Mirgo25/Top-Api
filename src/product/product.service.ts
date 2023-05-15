@@ -4,7 +4,7 @@ import { ProductDocument, ProductModel } from './product.model';
 import { Model } from 'mongoose';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { FindProductDTO } from './dto/find-product.dto';
-import { ReviewDocument } from 'src/review/review.model';
+import { ReviewDocument, ReviewModel } from 'src/review/review.model';
 
 @Injectable()
 export class ProductService {
@@ -56,6 +56,16 @@ export class ProductService {
                     },
                     reviewAvg: {
                         $avg: '$reviews.rating'
+                    },
+                    reviews: {
+                        $function: {
+                            body: function (reviews) {
+                                reviews.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf());
+                                return reviews;
+                            },
+                            args: ['$reviews'],
+                            lang: 'js'
+                        }
                     }
                 }
             }
