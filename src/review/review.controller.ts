@@ -21,7 +21,7 @@ export class ReviewController {
         return await this.reviewService.getById(id);
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async delete(@Param('id', IdValidationPipe) id: string) {
         const deletedDoc = await this.reviewService.delete(id);
