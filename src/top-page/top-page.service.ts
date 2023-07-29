@@ -1,9 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TopLevelCategory, TopPageDocument, TopPageModel } from './top-page.model';
 import { Model } from 'mongoose';
 import { CreateTopPageDTO } from './dto/create-top-page.dto';
-import { TOP_PAGE_NOT_FOUND_ERROR } from './top-page.constants';
 
 @Injectable()
 export class TopPageService {

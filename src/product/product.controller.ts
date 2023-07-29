@@ -25,6 +25,7 @@ export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @UseGuards(JwtAuthGuard)
+    @UsePipes(new ValidationPipe())
     @Post('create')
     async create(@Body() dto: CreateProductDTO) {
         return await this.productService.create(dto);
@@ -50,6 +51,7 @@ export class ProductController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @UsePipes(new ValidationPipe())
     @Patch(':id')
     async patch(@Param('id', IdValidationPipe) id: string, @Body() dto: ProductModel) {
         const updatedProduct = await this.productService.updateById(id, dto);
