@@ -11,7 +11,7 @@ const productId = new Types.ObjectId().toHexString();
 
 const loginDto: AuthDTO = {
     login: 'test@test.com',
-    password: '1234'
+    password: '1234',
 };
 
 const testDto: CreateReviewDTO = {
@@ -19,7 +19,7 @@ const testDto: CreateReviewDTO = {
     title: 'Header',
     description: 'description test',
     rating: 5,
-    productId
+    productId,
 };
 
 describe('ReviewController (e2e)', () => {
@@ -68,17 +68,16 @@ describe('ReviewController (e2e)', () => {
             .get('/review/byProduct/' + productId)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.length).toBe(1)
+                expect(body.length).toBe(1);
             });
     });
-
 
     it('/review/byProduct/:productId (GET) - fail', async () => {
         return request(app.getHttpServer())
             .get('/review/byProduct/' + new Types.ObjectId().toHexString())
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.length).toBe(0)
+                expect(body.length).toBe(0);
             });
     });
 
@@ -95,7 +94,7 @@ describe('ReviewController (e2e)', () => {
             .set('Authorization', 'Bearer ' + token)
             .expect(404, {
                 statusCode: 404,
-                message: REVIEW_NOT_FOUND
+                message: REVIEW_NOT_FOUND,
             });
     });
 

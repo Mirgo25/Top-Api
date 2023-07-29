@@ -12,7 +12,6 @@ import {
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
-import { TopPageModel } from './top-page.model';
 import { FindTopPageDTO } from './dto/find-top-page.dto';
 import { IdValidationPipe } from '../pipes/id-validation.pipe';
 import { CreateTopPageDTO } from './dto/create-top-page.dto';
@@ -22,13 +21,13 @@ import { TOP_PAGE_NOT_FOUND_ERROR } from './top-page.constants';
 
 @Controller('top-page')
 export class TopPageController {
-    constructor(private readonly topPageService: TopPageService) { }
+    constructor(private readonly topPageService: TopPageService) {}
 
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Post('create')
     async create(@Body() dto: CreateTopPageDTO) {
-        return await this.topPageService.create(dto);
+        return this.topPageService.create(dto);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -62,7 +61,10 @@ export class TopPageController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Patch(':id')
-    async patch(@Param('id', IdValidationPipe) id: string, @Body() dto: CreateTopPageDTO) {
+    async patch(
+        @Param('id', IdValidationPipe) id: string,
+        @Body() dto: CreateTopPageDTO,
+    ) {
         const updatedTopPage = await this.topPageService.updateById(id, dto);
         if (!updatedTopPage) {
             throw new NotFoundException(TOP_PAGE_NOT_FOUND_ERROR);
@@ -74,7 +76,9 @@ export class TopPageController {
     @HttpCode(200)
     @Post('find')
     async findByCategory(@Body() dto: FindTopPageDTO) {
-        const topPagesByCategory = await this.topPageService.findByCategory(dto.firstCategory);
+        const topPagesByCategory = await this.topPageService.findByCategory(
+            dto.firstCategory,
+        );
         if (!topPagesByCategory) {
             throw new NotFoundException(TOP_PAGE_NOT_FOUND_ERROR);
         }

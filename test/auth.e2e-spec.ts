@@ -5,10 +5,9 @@ import { AppModule } from '../src/app.module';
 import { disconnect } from 'mongoose';
 import { AuthDTO } from '../src/auth/dto/auth.dto';
 
-
 const loginDto: AuthDTO = {
     login: 'test@test.com',
-    password: '1234'
+    password: '1234',
 };
 
 describe('AuthController (e2e)', () => {
@@ -41,8 +40,8 @@ describe('AuthController (e2e)', () => {
             .send({ ...loginDto, login: 'Wrong@login.com' })
             .expect(401, {
                 statusCode: 401,
-                message: "The user with such email is not found",
-                error: "Unauthorized"
+                message: 'The user with such email is not found',
+                error: 'Unauthorized',
             });
     });
 
@@ -52,8 +51,8 @@ describe('AuthController (e2e)', () => {
             .send({ ...loginDto, password: 'wrong_pass' })
             .expect(401, {
                 statusCode: 401,
-                message: "The user has the wrong password",
-                error: "Unauthorized"
+                message: 'The user has the wrong password',
+                error: 'Unauthorized',
             });
     });
 

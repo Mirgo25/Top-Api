@@ -22,13 +22,13 @@ import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @Controller('product')
 export class ProductController {
-    constructor(private readonly productService: ProductService) { }
+    constructor(private readonly productService: ProductService) {}
 
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Post('create')
     async create(@Body() dto: CreateProductDTO) {
-        return await this.productService.create(dto);
+        return this.productService.create(dto);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -53,7 +53,10 @@ export class ProductController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Patch(':id')
-    async patch(@Param('id', IdValidationPipe) id: string, @Body() dto: ProductModel) {
+    async patch(
+        @Param('id', IdValidationPipe) id: string,
+        @Body() dto: ProductModel,
+    ) {
         const updatedProduct = await this.productService.updateById(id, dto);
         if (!updatedProduct) {
             throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR);
@@ -65,6 +68,6 @@ export class ProductController {
     @HttpCode(200)
     @Post('find')
     async find(@Body() dto: FindProductDTO) {
-        return await this.productService.findWithReviews(dto);
+        return this.productService.findWithReviews(dto);
     }
 }

@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Schema as Mschema } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Schema as Mschema } from 'mongoose';
 
 export type ReviewDocument = HydratedDocument<ReviewModel>;
 
