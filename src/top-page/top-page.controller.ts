@@ -80,4 +80,10 @@ export class TopPageController {
         }
         return topPagesByCategory;
     }
+
+    @Get('textSearch/:text')
+    async textSearch(@Param('text') text: string) {
+        const topPagesByCategory = await this.topPageService.findByText(text);
+        return topPagesByCategory;
+    }
 }

@@ -24,6 +24,11 @@ export class TopPageService {
         return await this.topPageModel.find({ firstCategory }, { alias: 1, secondCategory: 1, title: 1 }).exec();
     }
 
+    async findByText(text: string) {
+        console.log(text)
+        return await this.topPageModel.find({ $text: { $search: 'test' } }).exec();
+    }
+
     async deleteById(id: string) {
         return await this.topPageModel.findByIdAndDelete(id).exec();
     }

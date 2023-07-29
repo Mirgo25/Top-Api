@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type TopPageDocument = HydratedDocument<TopPageModel>;
 
@@ -65,4 +65,8 @@ export class TopPageModel {
     tags: string[];
 }
 
-export const TopPageSchema = SchemaFactory.createForClass(TopPageModel);
+const TopPageSchema = SchemaFactory.createForClass(TopPageModel);
+
+TopPageSchema.index({ title: 'text', seoText: 'text' });
+
+export { TopPageSchema };
