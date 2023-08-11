@@ -18,10 +18,14 @@ import { CreateTopPageDTO } from './dto/create-top-page.dto';
 import { TopPageService } from './top-page.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { TOP_PAGE_NOT_FOUND_ERROR } from './top-page.constants';
+import { VacanciesApiService } from 'src/vacancies_api/vacancies_api.service';
 
 @Controller('top-page')
 export class TopPageController {
-    constructor(private readonly topPageService: TopPageService) {}
+    constructor(
+        private readonly topPageService: TopPageService,
+        private readonly vacanciesApiService: VacanciesApiService,
+    ) { }
 
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
@@ -90,4 +94,23 @@ export class TopPageController {
         const topPagesByCategory = await this.topPageService.findByText(text);
         return topPagesByCategory;
     }
+
+    @Post('test')
+    async test() {
+        const data = await this.topPageService.findForHhUpdate(new Date());
+        for (const page of data) {
+            const HhData = await this.vacanciesApiService.getData(page.category);
+            page.hh = HhData;
+            // await this.sleep();
+            await this.topPageService.updateById(page._id, page);
+        }
+    }
+
+    // sleep() {
+    //     return new Promise<void>((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve();
+    //         }, 1000);
+    //     });
+    // }
 }

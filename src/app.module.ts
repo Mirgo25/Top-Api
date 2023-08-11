@@ -12,6 +12,7 @@ import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { getTelegramConfig } from './configs/telegram.config';
+import { VacanciesApiModule } from './vacancies_api/vacancies_api.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { getTelegramConfig } from './configs/telegram.config';
             inject: [ConfigService],
             useFactory: getTelegramConfig,
         }),
+        VacanciesApiModule,
     ],
     controllers: [AppController],
     providers: [AppService],

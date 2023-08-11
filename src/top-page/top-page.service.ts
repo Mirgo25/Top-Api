@@ -7,6 +7,8 @@ import {
 } from './top-page.model';
 import { Model } from 'mongoose';
 import { CreateTopPageDTO } from './dto/create-top-page.dto';
+import { subDays } from 'date-fns';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class TopPageService {
@@ -60,9 +62,29 @@ export class TopPageService {
         return this.topPageModel.findByIdAndDelete(id).exec();
     }
 
-    async updateById(id: string, dto: CreateTopPageDTO) {
+    async updateById(id: string | Types.ObjectId, dto: CreateTopPageDTO) {
         return this.topPageModel
             .findByIdAndUpdate(id, dto, { new: true })
+            .exec();
+    }
+
+    async findForHhUpdate(date: Date) {
+        return this.topPageModel
+            .find({
+                firstCategory: 0,   // Courses
+                $or: [
+                    {
+                        'hh.updatedAt': {
+                            $lt: subDays(date, 1),
+                        }
+                    },
+                    {
+                        'hh.updatedAt': {
+                            $exists: false,
+                        }
+                    },
+                ],
+            })
             .exec();
     }
 }
