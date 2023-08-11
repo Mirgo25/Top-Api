@@ -19,12 +19,14 @@ import { TopPageService } from './top-page.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { TOP_PAGE_NOT_FOUND_ERROR } from './top-page.constants';
 import { VacanciesApiService } from 'src/vacancies_api/vacancies_api.service';
+// import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 
 @Controller('top-page')
 export class TopPageController {
     constructor(
         private readonly topPageService: TopPageService,
         private readonly vacanciesApiService: VacanciesApiService,
+        // private readonly schedulerRegistry: SchedulerRegistry,
     ) { }
 
     @UseGuards(JwtAuthGuard)
@@ -95,16 +97,19 @@ export class TopPageController {
         return topPagesByCategory;
     }
 
-    @Post('test')
-    async test() {
-        const data = await this.topPageService.findForHhUpdate(new Date());
-        for (const page of data) {
-            const HhData = await this.vacanciesApiService.getData(page.category);
-            page.hh = HhData;
-            // await this.sleep();
-            await this.topPageService.updateById(page._id, page);
-        }
-    }
+    // @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT, { name: 'test' })
+    // @Post('test')
+    // async test() {
+    //     const job = this.schedulerRegistry.getCronJob('test');  // To handle cron job
+
+    //     const data = await this.topPageService.findForHhUpdate(new Date());
+    //     for (const page of data) {
+    //         const HhData = await this.vacanciesApiService.getData(page.category);
+    //         page.hh = HhData;
+    //         // await this.sleep();
+    //         await this.topPageService.updateById(page._id, page);
+    //     }
+    // }
 
     // sleep() {
     //     return new Promise<void>((resolve, reject) => {

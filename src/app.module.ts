@@ -13,6 +13,7 @@ import { SitemapModule } from './sitemap/sitemap.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { getTelegramConfig } from './configs/telegram.config';
 import { VacanciesApiModule } from './vacancies_api/vacancies_api.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { VacanciesApiModule } from './vacancies_api/vacancies_api.module';
             useFactory: getMongoConfig,
         }),
         ConfigModule.forRoot(),
+        ScheduleModule.forRoot(),
         AuthModule,
         TopPageModule,
         ProductModule,
